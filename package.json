@@ -1,0 +1,15 @@
+{
+  "name": "matrix-chat",
+  "version": "1.0.0",
+  "description": "Messagerie privée à comptes créés par l'administrateur, thème Matrix",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "reset-admin": "node reset-admin.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

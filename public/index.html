@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <title>PROJET ZER0</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="is-login">
+  <canvas id="rain" aria-hidden="true"></canvas>
+
+  <!-- Connexion -->
+  <main id="login" class="screen hidden">
+    <form id="login-form" class="panel login-panel" autocomplete="on">
+      <h1 class="glitch">ACCÈS RESTREINT</h1>
+      <p class="muted">&gt; identifie-toi pour entrer dans la messagerie privée de la BDG FAMILY_<span class="cursor"></span></p>
+      <label for="username">identifiant</label>
+      <input id="username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+      <label for="password">mot de passe</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
+      <p id="login-error" class="error" role="alert"></p>
+      <button type="submit" class="btn primary">SE CONNECTER</button>
+      <p class="muted small">Pas de compte ? Seul l'hôte peut t'en créer un.</p>
+    </form>
+  </main>
+
+  <!-- Messagerie -->
+  <div id="chat" class="screen hidden">
+    <header class="topbar">
+      <div class="brand">PROJET ZER0</div>
+      <div class="who">
+        <span id="who-name"></span>
+        <button id="sound-btn" class="btn small" type="button" aria-label="Activer ou couper le son" title="Son">🔊</button>
+        <button id="admin-btn" class="btn small hidden" type="button">ADMIN</button>
+        <button id="logout-btn" class="btn small" type="button">QUITTER</button>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="Catégories">
+      <button id="tab-discussion" class="tab active" type="button" data-channel="discussion">DISCUSSION<span class="dot hidden" aria-label="nouveau message"></span></button>
+      <button id="tab-annonce" class="tab" type="button" data-channel="annonce">ANNONCE<span class="dot hidden" aria-label="nouveau message"></span></button>
+    </nav>
+
+    <p id="purge-note" class="purge-note hidden"></p>
+
+    <section id="messages" class="messages" aria-live="polite"></section>
+
+    <p id="readonly-note" class="readonly hidden">&gt; seul l'administrateur écrit ici. Tu peux réagir aux messages.</p>
+
+    <footer id="composer" class="composer">
+      <div id="reply-bar" class="reply-bar hidden">
+        <span>↩ réponse à <b id="reply-author"></b> : <span id="reply-text"></span></span>
+        <button id="reply-cancel" class="icon-btn" type="button" aria-label="Annuler la réponse">✕</button>
+      </div>
+      <div id="pending-files" class="pending-files"></div>
+      <p id="rec-note" class="rec-note hidden" role="status"></p>
+      <p id="send-error" class="error" role="alert"></p>
+      <div class="composer-row">
+        <button id="attach-btn" class="btn icon" type="button" aria-label="Joindre un fichier" title="Joindre un fichier (10 Mo max)">📎</button>
+        <button id="mic-btn" class="btn icon" type="button" aria-label="Enregistrer un message vocal" title="Message vocal">🎤</button>
+        <input id="file-input" type="file" multiple class="hidden">
+        <textarea id="text" rows="1" maxlength="4000" placeholder="Écris un message…  (Entrée pour envoyer, Maj+Entrée pour une nouvelle ligne)"></textarea>
+        <button id="send-btn" class="btn primary" type="button">ENVOYER</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Message d'accueil (première connexion) -->
+  <dialog id="welcome-dialog" class="panel welcome">
+    <h2>&gt; PROJET ZER0</h2>
+    <p>Bienvenue <b id="welcome-name"></b> dans la messagerie privée de la BDG FAMILY.</p>
+    <p>Ton pseudo n'est pas ton prénom : c'est pour que ce que tu dis reste privé et que personne, à part nos membres, ne sache qui tu es.</p>
+    <p>J'ai créé ce site pour parler librement entre nous de choses plus radicales et privées. Mon but est d'échanger avec vous tous, adhérents du groupe. J'ai de grands projets pour le groupe ; pour l'instant, le site en est au projet ZER0.</p>
+    <p>Amuse-toi bien ici. Merci de ne pas prendre de captures d'écran de la conversation : ce qui se dit ici reste entre nous.</p>
+    <button id="welcome-ok" class="btn primary" type="button">J'AI COMPRIS</button>
+  </dialog>
+
+  <!-- Administration -->
+  <dialog id="admin-dialog" class="panel">
+    <div class="dialog-head">
+      <h2>ADMINISTRATION</h2>
+      <button id="admin-close" class="icon-btn" type="button" aria-label="Fermer">✕</button>
+    </div>
+
+    <form id="create-form" class="create-form" autocomplete="off">
+      <h3>&gt; créer un accès</h3>
+      <div class="row">
+        <input id="new-username" type="text" placeholder="identifiant" autocapitalize="none" spellcheck="false" required>
+        <input id="new-password" type="text" placeholder="mot de passe" spellcheck="false" required>
+        <button id="gen-btn" class="btn small" type="button" title="Générer un mot de passe">🎲</button>
+        <button class="btn primary small" type="submit">CRÉER</button>
+      </div>
+      <p id="create-error" class="error" role="alert"></p>
+      <div id="create-ok" class="ok hidden">
+        <span>Accès créé : <b id="ok-user"></b> / <b id="ok-pass"></b></span>
+        <button id="copy-btn" class="btn small" type="button">COPIER</button>
+      </div>
+    </form>
+
+    <h3>&gt; comptes existants</h3>
+    <ul id="user-list" class="user-list"></ul>
+    <p id="admin-error" class="error" role="alert"></p>
+  </dialog>
+
+  <script src="/app.js"></script>
+</body>
+</html>
